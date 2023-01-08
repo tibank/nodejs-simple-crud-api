@@ -1,0 +1,28 @@
+{
+  "name": "nodejs-simple-crud-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tibank/nodejs-simple-crud-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tibank/nodejs-simple-crud-api/issues"
+  },
+  "homepage": "https://github.com/tibank/nodejs-simple-crud-api#readme",
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@types/uuid": "^9.0.0",
+    "dotenv": "^16.0.3",
+    "uuid": "^9.0.0"
+  }
+}
