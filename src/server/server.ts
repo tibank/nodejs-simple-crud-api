@@ -1,0 +1,47 @@
+import http from 'node:http'
+import EventEmitter from 'node:events';
+
+
+export class Application {
+  server: http.Server;
+  emitter: EventEmitter;
+  middlewares: any[];
+
+  constructor() {
+    this.emitter = new EventEmitter();
+    this.server = this.createHttpServer();
+    this.middlewares = [];
+  }
+
+  public listen(port: string | number, callback: any): void {
+    this.server.listen(port, callback);
+  }
+
+  public use(middleware: any): void {
+    this.middlewares.push(middleware);
+  }
+
+  private createHttpServer(): http.Server {
+    return http.createServer((req: any, res: any) => {
+      let body = '';
+
+      req.on('data', (chunk: any) => {
+        body += chunk;
+      });
+
+      req.on('end', () => {
+        if (body) {
+          req.body = JSON.parse(body);
+        }
+
+        this.middlewares.forEach((middleware) => middleware(req, res));
+
+        if (!req.eventNameEmitted || !this.emitter.emit(`${req.eventNameEmitted}`, req, res)) {
+          res.statusCode = 404;
+          res.end(JSON.stringify({ message: `The resource ${req.url} is not found!` }));
+        }
+      });
+    });
+  }
+
+}
