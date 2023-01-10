@@ -1,5 +1,6 @@
 import http from 'node:http'
 import EventEmitter from 'node:events';
+import { Router } from '../routers/router';
 
 
 export class Application {
@@ -19,6 +20,18 @@ export class Application {
 
   public use(middleware: any): void {
     this.middlewares.push(middleware);
+  }
+
+  public route(router: Router): void {
+    Object.keys(router.endpoints).forEach((path) => {
+      const endpoint: any = router.endpoints[path];
+      Object.keys(endpoint).forEach((method) => {
+        this.emitter.on(`${path}:${method}`, (req, res) => {
+          const handler = endpoint[method];
+          handler(req, res);
+        });
+      });
+    });
   }
 
   private createHttpServer(): http.Server {
