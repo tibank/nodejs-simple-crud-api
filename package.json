@@ -4,6 +4,9 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
+    "start:dev": "nodemon --config nodemon.json ./src/app.ts",
+    "prestart:prod": "node -e \"const fs = require('fs'); fs.rmdirSync('./dist', { recursive: true }); process.exit(0)\"",
+    "start:prod": "tsc && node --unhandled-rejections=strict ./dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

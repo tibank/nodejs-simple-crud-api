@@ -1,6 +1,7 @@
 import http from 'node:http'
 import EventEmitter from 'node:events';
 import { Router } from '../routers/router';
+import { parseRouter } from '../helper/parseRoute';
 
 
 export class Application {
@@ -48,6 +49,7 @@ export class Application {
         }
 
         this.middlewares.forEach((middleware) => middleware(req, res));
+        parseRouter(req, this.emitter);        
 
         if (!req.eventNameEmitted || !this.emitter.emit(`${req.eventNameEmitted}`, req, res)) {
           res.statusCode = 404;
